@@ -1,21 +1,31 @@
-# Fetchy
+# Fetchy 🚀
 
-A modern, local offline media downloader for Android.
+A modern, offline media downloader for Android.
 
-Fetchy uses **yt-dlp** and **FFmpeg** to fetch and process media from supported platforms, with everything handled locally on your device.
+Fetchy lets you download video and audio from supported platforms with plenty of quality, format, and download options — while keeping your files and sessions stored locally on your device.
 
-## Features
+## ✨ Features
 
-- Video and audio downloads
-- Quality and format selection
-- Download history
-- Custom download locations
-- Session / `cookies.txt` support
-- Built-in diagnostics
-- English + Arabic with RTL support
-- Quick Fetch — coming soon
+- 🎬 **Video downloads** with multiple quality and format options
+- 🎵 **Audio downloads** with different formats and conversion options
+- ⚙️ **Flexible download settings** with more control over how your media is saved
+- 🖼️ **Metadata & artwork** support for audio downloads
+- 🎞️ **FPS, subtitles & no-audio options** for video downloads
+- 📊 **Detailed download progress** with percentage, size and speed
+- 📥 **Download history** to keep track of everything you've downloaded
+- 🔎 **Search your history** to quickly find previous downloads
+- 🗂️ **History filters** to organize and find downloads more easily
+- ♻️ **Duplicate detection** to help avoid downloading the same media again
+- 📁 **Custom download locations** with flexible storage options
+- 🔐 **Connected sessions** for platforms that require sign-in
+- 🍪 **`cookies.txt` import** for advanced session support
+- 🩺 **Error Information Center** with simple explanations and technical details
+- 🔬 **Diagnostics & Limitations** for advanced users and developers
+- 🌍 **English + Arabic** with full RTL support
+- 🔄 **GitHub-based in-app updates**
+- ⚡ **Quick Fetch** — coming soon
 
-## Supported platforms
+## 🌐 Supported Platforms
 
 Fetchy currently supports sources such as:
 
@@ -25,28 +35,30 @@ Fetchy currently supports sources such as:
 - X / Twitter
 - Snapchat
 
-Support can vary depending on the platform, media, and whether sign-in is required.
+Support can vary depending on the platform, the media itself, authentication requirements, and upstream extractor limitations.
 
-## Download
+## 🔒 Privacy
 
-Download the latest APK from **GitHub Releases**.
+Fetchy is designed with a local-first approach.
 
-## Privacy
+Your downloaded files and saved sessions stay on your device, and Fetchy does not upload them to its own server as part of the normal download flow.
 
-Fetchy is designed to keep your data local.
+## 📦 Download
 
-Downloaded files and saved sessions stay on your device, and Fetchy does not upload them to its own server.
+Download the latest APK from the **GitHub Releases** page.
 
-## Development
-
-Built with:
+## 🛠️ Built With
 
 - Flutter
 - Kotlin
 - yt-dlp
 - FFmpeg
 
-Fetchy is still actively being developed, so some features and platform support may change over time.
+## 🚧 Project Status
+
+Fetchy is still actively being developed.
+
+Some features are still in development, and platform support can change over time depending on upstream changes.
 
 ---
 
