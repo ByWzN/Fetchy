@@ -66,6 +66,10 @@ class _HomePageState extends State<HomePage> {
 
   DownloadSelection? _activeSelection;
 
+  /// A link shared while a fetch was already in flight, run once it ends —
+  /// see [_applySharedLink].
+  String? _queuedSharedLink;
+
   List<PlatformSession> _sessions = const <PlatformSession>[];
 
   @override
@@ -104,9 +108,35 @@ class _HomePageState extends State<HomePage> {
     _applySharedLink(initialLink);
   }
 
+  /// A link shared into Fetchy goes through the exact same path as one the
+  /// user typed or pasted: it lands in the input field and then runs the
+  /// existing Fetch flow. There is no second extraction path and no second
+  /// downloader — Share is just another way to fill this field.
   void _applySharedLink(String link) {
     _linkController.text = link;
     _linkController.selection = TextSelection.collapsed(offset: link.length);
+
+    // A share that lands while an extraction is already running is queued
+    // rather than dropped: two concurrent extractions would race to set the
+    // same preview, but silently ignoring the link the user just shared is
+    // worse. The queued link runs as soon as the in-flight fetch finishes.
+    if (_isExtracting) {
+      _queuedSharedLink = link;
+      return;
+    }
+
+    unawaited(_onFetchPressed());
+  }
+
+  /// Runs a share that arrived mid-extraction, once the field is free again.
+  void _runQueuedSharedLink() {
+    final String? queued = _queuedSharedLink;
+    if (queued == null || _isExtracting || !mounted) return;
+    _queuedSharedLink = null;
+
+    _linkController.text = queued;
+    _linkController.selection = TextSelection.collapsed(offset: queued.length);
+    unawaited(_onFetchPressed());
   }
 
   /// Keeps the page honest about which link the result on screen belongs to.
@@ -270,6 +300,9 @@ class _HomePageState extends State<HomePage> {
           errorCategory: result.code.name,
         );
       }
+
+      // A link shared while this fetch was running gets its turn now.
+      _runQueuedSharedLink();
     });
   }
 

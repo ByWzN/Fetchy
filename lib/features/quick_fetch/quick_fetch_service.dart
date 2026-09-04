@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import '../../core/platform/platform_channels.dart';
+import '../../core/settings/app_settings_service.dart';
 import 'quick_fetch_models.dart';
 
 /// The outcome of acting on a quick-action tap.
@@ -173,6 +174,30 @@ class QuickFetchService {
       await _invoke<bool>(
         PlatformChannels.quickFetchOpenAccessibilitySettings,
       ) ??
+      false;
+
+  /// Stands the feature down while it is held back from a release (see
+  /// [QuickFetchAvailability]).
+  ///
+  /// Clears any stored "on" state and tears down any surface left behind, so
+  /// a device that had Quick Fetch switched on in an earlier build does not
+  /// keep producing notifications or a floating dot. The implementation
+  /// itself is untouched — this only turns it off.
+  Future<void> disableForUnavailableFeature() async {
+    await setEnabled(
+      enabled: false,
+      actionStyle: QuickFetchActionStyle.notification,
+    );
+    await AppSettingsService.instance.saveQuickFetchEnabled(false);
+    await dismissPending();
+  }
+
+  /// Opens Fetchy's App Info screen. On Android 13+ that is where a
+  /// sideloaded app's "Allow restricted settings" action lives, when the
+  /// device shows one — Fetchy can only take the user there and explain,
+  /// never grant it.
+  Future<bool> openAppInfoSettings() async =>
+      await _invoke<bool>(PlatformChannels.quickFetchOpenAppInfoSettings) ??
       false;
 
   /// Clears any pending notification / floating dot.

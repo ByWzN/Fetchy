@@ -17,6 +17,7 @@ import '../../../../l10n/generated/app_localizations.dart';
 import '../../../diagnostics/presentation/pages/diagnostics_page.dart';
 import '../../../history/history_service.dart';
 import '../../../quick_fetch/presentation/pages/quick_fetch_settings_page.dart';
+import '../../../quick_fetch/quick_fetch_availability.dart';
 import '../../../quick_fetch/presentation/widgets/quick_fetch_enable_toggle.dart';
 import '../../../quick_fetch/quick_fetch_models.dart';
 import '../../../quick_fetch/quick_fetch_service.dart';
@@ -274,19 +275,29 @@ class _SettingsPageState extends State<SettingsPage> {
         // Quick Fetch has permissions, an action style, and background
         // behaviour to explain, so it gets its own screen rather than a bare
         // switch the user cannot reason about.
+        //
+        // While the feature is held back (see QuickFetchAvailability) the
+        // row stays visible so users know it is coming, but carries no
+        // switch — there is nothing to turn on yet.
         FetchyListRow(
           leading: const FetchyLeadingIcon(
             icon: Icons.bolt_rounded,
             emphasis: true,
           ),
           title: strings.quickFetchTitle,
-          subtitle: strings.quickFetchMasterDescription,
-          trailing: Switch(
-            value: _quickFetchCapabilities.enabled,
-            onChanged: (_quickFetchCapabilities.available && !_quickFetchBusy)
-                ? _setQuickFetchEnabled
-                : null,
-          ),
+          subtitle: QuickFetchAvailability.isAvailable
+              ? strings.quickFetchMasterDescription
+              : strings.quickFetchComingSoonSubtitle,
+          trailing: QuickFetchAvailability.isAvailable
+              ? Switch(
+                  value: _quickFetchCapabilities.enabled,
+                  onChanged:
+                      (_quickFetchCapabilities.available && !_quickFetchBusy)
+                      ? _setQuickFetchEnabled
+                      : null,
+                )
+              : FetchyTag(label: strings.quickFetchComingSoonTag),
+          showChevron: !QuickFetchAvailability.isAvailable,
           onTap: _openQuickFetchSettings,
         ),
       ],

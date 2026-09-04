@@ -580,16 +580,10 @@ void main() {
   });
 
   group('UpdateConfig', () {
-    test('reports that the repository still needs configuring', () {
-      // This intentionally fails once the placeholders are replaced,
-      // as a reminder to re-read the release checklist.
-      expect(
-        UpdateConfig.isConfigured,
-        isFalse,
-        reason:
-            'Replace githubOwner/githubRepository in update_config.dart, then '
-            'update this expectation to isTrue.',
-      );
+    test('reports that the repository is configured', () {
+      // Flipped now that githubOwner/githubRepository hold the real
+      // ByWzN/Fetchy repository instead of the placeholders.
+      expect(UpdateConfig.isConfigured, isTrue);
     });
 
     test('builds the documented latest-release endpoint', () {

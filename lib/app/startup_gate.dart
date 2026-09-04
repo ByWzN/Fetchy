@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../core/settings/locale_controller.dart';
 import '../core/settings/theme_controller.dart';
 import '../core/update/update_service.dart';
+import '../features/quick_fetch/quick_fetch_availability.dart';
 import '../features/quick_fetch/quick_fetch_service.dart';
 import '../features/share/share_intent_service.dart';
 import 'root_shell.dart';
@@ -33,7 +34,16 @@ class _StartupGateState extends State<StartupGate> {
   @override
   void initState() {
     super.initState();
-    QuickFetchService.instance.start();
+    // Quick Fetch is held back from this release (see
+    // QuickFetchAvailability). The detector is not started, and any "on"
+    // state persisted by an earlier build is cleared so a previously
+    // granted accessibility service cannot keep surfacing quick actions.
+    if (QuickFetchAvailability.isAvailable) {
+      QuickFetchService.instance.start();
+    } else {
+      unawaited(QuickFetchService.instance.disableForUnavailableFeature());
+    }
+
     ShareIntentService.instance.start();
 
     // The lightweight automatic update check. Deliberately fire-and-forget:

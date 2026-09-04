@@ -54,6 +54,10 @@ class PlatformChannels {
       'openNotificationSettings';
   static const String quickFetchOpenAccessibilitySettings =
       'openAccessibilitySettings';
+
+  /// Opens Fetchy's own App Info screen — where Android 13+ surfaces the
+  /// "Allow restricted settings" action for apps installed from an APK.
+  static const String quickFetchOpenAppInfoSettings = 'openAppInfoSettings';
   static const String quickFetchDismissPending = 'dismissPending';
 
   /// The single post-tap clipboard read. Native returns a supported URL or

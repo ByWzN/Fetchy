@@ -70,6 +70,8 @@ class QuickFetchChannelHandler(
             METHOD_OPEN_ACCESSIBILITY_SETTINGS ->
                 result.success(openAccessibilitySettings())
 
+            METHOD_OPEN_APP_INFO_SETTINGS -> result.success(openAppInfoSettings())
+
             METHOD_DISMISS_PENDING -> {
                 QuickFetchPresenter.clear(appContext)
                 result.success(null)
@@ -118,7 +120,47 @@ class QuickFetchChannelHandler(
                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU),
             "canDrawOverlays" to overlay.canDrawOverlays(),
             "hasPendingCandidate" to (QuickFetchPresenter.pending != null),
+            // Guidance only: on Android 13+ a sideloaded install is the case
+            // where the user may hit Restricted Settings when switching the
+            // accessibility service on. It never changes what Fetchy asks
+            // for or what it is allowed to do — only what the setup screen
+            // explains.
+            "installSource" to installSourceClassification(),
         )
+    }
+
+    // -------------------------------------------------------- install source
+
+    /// Classifies how this copy of Fetchy was installed, using the public
+    /// PackageManager API only.
+    ///
+    /// A specific installer package name is never treated as inherently
+    /// trustworthy: the classification is coarse on purpose, and unknown or
+    /// unrecognized results fall back to generic wording in the UI.
+    private fun installSourceClassification(): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            // getInstallSourceInfo does not exist below API 30. Rather than
+            // guess from the deprecated single-field API, report unknown and
+            // let the UI use generic wording.
+            return INSTALL_SOURCE_UNKNOWN
+        }
+
+        return try {
+            val info = appContext.packageManager.getInstallSourceInfo(appContext.packageName)
+            val installer = info.installingPackageName?.trim()
+
+            when {
+                installer.isNullOrEmpty() -> INSTALL_SOURCE_SIDELOAD
+                installer in KNOWN_STORE_INSTALLERS -> INSTALL_SOURCE_STORE
+                // A package installer session started by the system UI or by a
+                // file manager is the ordinary "installed from an APK" path.
+                installer in KNOWN_SIDELOAD_INSTALLERS -> INSTALL_SOURCE_SIDELOAD
+                else -> INSTALL_SOURCE_OTHER
+            }
+        } catch (throwable: Throwable) {
+            Log.d(TAG, "Could not read install source info", throwable)
+            INSTALL_SOURCE_UNKNOWN
+        }
     }
 
     // ------------------------------------------------------------ clipboard
@@ -253,6 +295,23 @@ class QuickFetchChannelHandler(
         return launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
     }
 
+    /// Opens Fetchy's own App Info screen.
+    ///
+    /// This exists because Android 13+ can mark the accessibility toggle as a
+    /// Restricted Setting for apps installed from an APK. There is no public
+    /// API to grant that, and no documented deep link into the overflow item
+    /// that unlocks it — so the only correct thing an app can do is take the
+    /// user to the right screen and explain what to look for there. Nothing
+    /// here attempts to change the restriction itself.
+    private fun openAppInfoSettings(): Boolean {
+        return launch(
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + appContext.packageName),
+            ),
+        )
+    }
+
     private fun launch(intent: Intent): Boolean {
         return try {
             val host = activity
@@ -287,6 +346,34 @@ class QuickFetchChannelHandler(
             "openNotificationSettings"
         private const val METHOD_OPEN_ACCESSIBILITY_SETTINGS =
             "openAccessibilitySettings"
+        private const val METHOD_OPEN_APP_INFO_SETTINGS = "openAppInfoSettings"
+
+        // Coarse install-source buckets, mirrored by QuickFetchInstallSource
+        // on the Dart side. Used for wording only.
+        private const val INSTALL_SOURCE_STORE = "store"
+        private const val INSTALL_SOURCE_SIDELOAD = "sideload"
+        private const val INSTALL_SOURCE_OTHER = "other"
+        private const val INSTALL_SOURCE_UNKNOWN = "unknown"
+
+        /// App stores that perform their own installs. Presence here only
+        /// selects gentler wording — it never grants Fetchy anything, and an
+        /// installer not listed simply gets the generic explanation.
+        private val KNOWN_STORE_INSTALLERS = setOf(
+            "com.android.vending",
+            "com.google.android.feedback",
+            "com.amazon.venezia",
+            "com.huawei.appmarket",
+            "org.fdroid.fdroid",
+            "com.sec.android.app.samsungapps",
+        )
+
+        /// The system components that install a downloaded APK file.
+        private val KNOWN_SIDELOAD_INSTALLERS = setOf(
+            "com.google.android.packageinstaller",
+            "com.android.packageinstaller",
+            "com.google.android.apps.nbu.files",
+            "com.android.shell",
+        )
         private const val METHOD_DISMISS_PENDING = "dismissPending"
         private const val METHOD_CONSUME_CLIPBOARD_LINK = "consumeClipboardLink"
 

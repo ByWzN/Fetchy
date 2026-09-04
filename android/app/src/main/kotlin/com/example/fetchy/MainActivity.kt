@@ -1,6 +1,7 @@
 package com.example.fetchy
 
 import android.content.Intent
+import android.os.SystemClock
 import com.example.fetchy.quickfetch.QuickFetchChannelHandler
 import com.example.fetchy.quickfetch.QuickFetchContract
 import com.example.fetchy.root.RootChannelHandler
@@ -41,6 +42,10 @@ class MainActivity : FlutterActivity() {
     /// Set when a quick action launched or resumed this Activity, cleared once
     /// the tap has been delivered to Dart.
     private var quickFetchTapPending = false
+
+    /// The share intent already handed to Dart. Guards against acting on the
+    /// same share twice when Android recreates or resumes the Activity.
+    private var lastHandledShareIdentity: String? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -280,15 +285,52 @@ class MainActivity : FlutterActivity() {
         super.onDestroy()
     }
 
+    /// Pulls a shareable link out of an ACTION_SEND intent.
+    ///
+    /// Two guards against handling the same share twice: EXTRA_TEXT is
+    /// removed from the live Intent (so a resume that re-reads getIntent()
+    /// finds nothing), and the intent's identity is remembered (so a process
+    /// death that re-delivers the original intent with its extras intact is
+    /// still only acted on once).
     private fun extractSharedText(intent: Intent?): String? {
         if (intent == null) return null
         if (intent.action != Intent.ACTION_SEND) return null
+        // The manifest filter is text/plain — the convention for sharing a
+        // link — but any text subtype is accepted here if the system routes
+        // one to us.
         if (intent.type?.startsWith("text/") != true) return null
 
-        val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim()
+        val identity = shareIntentIdentity(intent)
+        if (identity != null && identity == lastHandledShareIdentity) return null
+
+        val raw = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim()
         intent.removeExtra(Intent.EXTRA_TEXT)
 
-        return if (text.isNullOrEmpty()) null else text
+        if (raw.isNullOrEmpty()) return null
+        lastHandledShareIdentity = identity
+
+        return extractFirstUrl(raw)
+    }
+
+    /// Shares routinely arrive as a sentence with the link embedded
+    /// ("Check this out https://youtu.be/x"), so the URL is lifted out
+    /// instead of handing the whole caption to the extractor. Text with no
+    /// http(s) URL at all is passed through unchanged, so a bare link
+    /// without a scheme still reaches the normal input validation.
+    private fun extractFirstUrl(text: String): String {
+        val match = URL_PATTERN.find(text) ?: return text
+        return match.value.trimEnd('.', ',', ')', ']', '"', '\'')
+    }
+
+    /// A cheap stable identity for one share. Deliberately not the text
+    /// itself: sharing the same link twice on purpose must still work.
+    private fun shareIntentIdentity(intent: Intent): String? {
+        val timestamp = intent.getLongExtra(EXTRA_SHARE_RECEIVED_AT, -1L)
+        if (timestamp > 0L) return "ts:$timestamp"
+
+        val stamped = SystemClock.elapsedRealtime()
+        intent.putExtra(EXTRA_SHARE_RECEIVED_AT, stamped)
+        return "ts:$stamped"
     }
 
     /// A quick-action tap carries no URL by design — only the fact that the
@@ -300,5 +342,12 @@ class MainActivity : FlutterActivity() {
         private const val SHARE_CHANNEL = "app.fetchy/share"
         private const val METHOD_GET_INITIAL_SHARED_TEXT = "getInitialSharedText"
         private const val METHOD_ON_SHARED_TEXT = "onSharedText"
+
+        /// Stamped onto a share intent the first time it is seen, so the same
+        /// intent object can be recognized if it comes back.
+        private const val EXTRA_SHARE_RECEIVED_AT = "com.example.fetchy.SHARE_RECEIVED_AT"
+
+        /// Finds the first http(s) URL inside shared text.
+        private val URL_PATTERN = Regex("""https?://\S+""", RegexOption.IGNORE_CASE)
     }
 }

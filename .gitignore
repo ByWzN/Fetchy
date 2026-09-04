@@ -1,3 +1,10 @@
+# Local editor / tool state — machine-specific, not part of the project.
+.idea/workspace.xml
+.claude/settings.local.json
+
+# Zipped source snapshots. The repository itself is the source of truth.
+lib.zip
+
 # Miscellaneous
 *.class
 *.lock

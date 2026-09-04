@@ -1220,6 +1220,162 @@ abstract class AppLocalizations {
   /// **'Turn on'**
   String get quickFetchTurnOn;
 
+  /// No description provided for @quickFetchSetupReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Fetch is ready'**
+  String get quickFetchSetupReadyTitle;
+
+  /// No description provided for @quickFetchSetupReadyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetchy will notice when you copy a link in a watched app and offer a quick way to fetch it.'**
+  String get quickFetchSetupReadyMessage;
+
+  /// No description provided for @quickFetchSetupNeededTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Fetch needs setup'**
+  String get quickFetchSetupNeededTitle;
+
+  /// No description provided for @quickFetchSetupNeededMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Fetch can automatically detect copied media links. Android may require an additional security step for apps installed from APK files.'**
+  String get quickFetchSetupNeededMessage;
+
+  /// No description provided for @quickFetchSetupNotYetEnabledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Fetch isn\'t enabled yet'**
+  String get quickFetchSetupNotYetEnabledTitle;
+
+  /// No description provided for @quickFetchSetupNotYetEnabledMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetchy\'s detector still isn\'t switched on in Android\'s Accessibility settings. You can try again, or open the screens below.'**
+  String get quickFetchSetupNotYetEnabledMessage;
+
+  /// No description provided for @quickFetchEnableCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Quick Fetch'**
+  String get quickFetchEnableCta;
+
+  /// No description provided for @quickFetchTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get quickFetchTryAgain;
+
+  /// No description provided for @quickFetchOpenAccessibilitySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Accessibility settings'**
+  String get quickFetchOpenAccessibilitySettings;
+
+  /// No description provided for @quickFetchOpenAppInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Fetchy App Info'**
+  String get quickFetchOpenAppInfo;
+
+  /// No description provided for @quickFetchEnableExplainTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you continue'**
+  String get quickFetchEnableExplainTitle;
+
+  /// No description provided for @quickFetchEnableExplainBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Android will open its Accessibility settings. Find Fetchy in the list and turn it on, then come back here.\n\nFetchy can only open that screen for you — it can\'t switch the setting on itself.'**
+  String get quickFetchEnableExplainBody;
+
+  /// No description provided for @quickFetchEnableExplainContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get quickFetchEnableExplainContinue;
+
+  /// No description provided for @quickFetchRestrictedHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'If Android says the setting is restricted'**
+  String get quickFetchRestrictedHelpTitle;
+
+  /// No description provided for @quickFetchRestrictedHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'On Android 13 and newer, apps installed from APK files may be blocked by Android\'s Restricted Settings protection. If Android shows \"Restricted setting\", open Fetchy App Info and look for \"Allow restricted settings\", then return here and enable Quick Fetch.'**
+  String get quickFetchRestrictedHelpBody;
+
+  /// No description provided for @quickFetchRestrictedHelpNote.
+  ///
+  /// In en, this message translates to:
+  /// **'On some Android versions, you may see \"Allow restricted settings\" in the App Info menu. Wording and menu placement differ between devices and manufacturers.'**
+  String get quickFetchRestrictedHelpNote;
+
+  /// No description provided for @quickFetchHelpShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup help'**
+  String get quickFetchHelpShow;
+
+  /// No description provided for @quickFetchOptionalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Fetch is optional. You can always use Share → Fetchy without enabling it.'**
+  String get quickFetchOptionalNote;
+
+  /// No description provided for @quickFetchShareFallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share to Fetchy'**
+  String get quickFetchShareFallbackTitle;
+
+  /// No description provided for @quickFetchShareFallbackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Works without Quick Fetch permissions'**
+  String get quickFetchShareFallbackSubtitle;
+
+  /// No description provided for @quickFetchShareFallbackMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'In any app, tap Share and pick Fetchy. The link opens straight into Fetchy\'s normal preview and download flow — no extra permission needed.'**
+  String get quickFetchShareFallbackMessage;
+
+  /// No description provided for @quickFetchAutoDetectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically detect copied links'**
+  String get quickFetchAutoDetectLabel;
+
+  /// No description provided for @quickFetchComingSoonTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get quickFetchComingSoonTag;
+
+  /// No description provided for @quickFetchComingSoonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get quickFetchComingSoonSubtitle;
+
+  /// No description provided for @quickFetchComingSoonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic copied-link detection is currently under development. It will let Fetchy notice when you copy a video link in a supported app and offer a quick way to fetch it.\n\nIt isn\'t ready yet, so it\'s switched off in this release.'**
+  String get quickFetchComingSoonBody;
+
+  /// No description provided for @quickFetchComingSoonMeanwhile.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything else works as usual: paste a link on the Home screen, or share a link to Fetchy from any app.'**
+  String get quickFetchComingSoonMeanwhile;
+
   /// No description provided for @watchedDomainsEditTitle.
   ///
   /// In en, this message translates to:

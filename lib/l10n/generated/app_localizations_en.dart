@@ -616,6 +616,98 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickFetchTurnOn => 'Turn on';
 
   @override
+  String get quickFetchSetupReadyTitle => 'Quick Fetch is ready';
+
+  @override
+  String get quickFetchSetupReadyMessage =>
+      'Fetchy will notice when you copy a link in a watched app and offer a quick way to fetch it.';
+
+  @override
+  String get quickFetchSetupNeededTitle => 'Quick Fetch needs setup';
+
+  @override
+  String get quickFetchSetupNeededMessage =>
+      'Quick Fetch can automatically detect copied media links. Android may require an additional security step for apps installed from APK files.';
+
+  @override
+  String get quickFetchSetupNotYetEnabledTitle =>
+      'Quick Fetch isn\'t enabled yet';
+
+  @override
+  String get quickFetchSetupNotYetEnabledMessage =>
+      'Fetchy\'s detector still isn\'t switched on in Android\'s Accessibility settings. You can try again, or open the screens below.';
+
+  @override
+  String get quickFetchEnableCta => 'Enable Quick Fetch';
+
+  @override
+  String get quickFetchTryAgain => 'Try again';
+
+  @override
+  String get quickFetchOpenAccessibilitySettings =>
+      'Open Accessibility settings';
+
+  @override
+  String get quickFetchOpenAppInfo => 'Open Fetchy App Info';
+
+  @override
+  String get quickFetchEnableExplainTitle => 'Before you continue';
+
+  @override
+  String get quickFetchEnableExplainBody =>
+      'Android will open its Accessibility settings. Find Fetchy in the list and turn it on, then come back here.\n\nFetchy can only open that screen for you — it can\'t switch the setting on itself.';
+
+  @override
+  String get quickFetchEnableExplainContinue => 'Open settings';
+
+  @override
+  String get quickFetchRestrictedHelpTitle =>
+      'If Android says the setting is restricted';
+
+  @override
+  String get quickFetchRestrictedHelpBody =>
+      'On Android 13 and newer, apps installed from APK files may be blocked by Android\'s Restricted Settings protection. If Android shows \"Restricted setting\", open Fetchy App Info and look for \"Allow restricted settings\", then return here and enable Quick Fetch.';
+
+  @override
+  String get quickFetchRestrictedHelpNote =>
+      'On some Android versions, you may see \"Allow restricted settings\" in the App Info menu. Wording and menu placement differ between devices and manufacturers.';
+
+  @override
+  String get quickFetchHelpShow => 'Setup help';
+
+  @override
+  String get quickFetchOptionalNote =>
+      'Quick Fetch is optional. You can always use Share → Fetchy without enabling it.';
+
+  @override
+  String get quickFetchShareFallbackTitle => 'Share to Fetchy';
+
+  @override
+  String get quickFetchShareFallbackSubtitle =>
+      'Works without Quick Fetch permissions';
+
+  @override
+  String get quickFetchShareFallbackMessage =>
+      'In any app, tap Share and pick Fetchy. The link opens straight into Fetchy\'s normal preview and download flow — no extra permission needed.';
+
+  @override
+  String get quickFetchAutoDetectLabel => 'Automatically detect copied links';
+
+  @override
+  String get quickFetchComingSoonTag => 'Coming soon';
+
+  @override
+  String get quickFetchComingSoonSubtitle => 'Coming soon';
+
+  @override
+  String get quickFetchComingSoonBody =>
+      'Automatic copied-link detection is currently under development. It will let Fetchy notice when you copy a video link in a supported app and offer a quick way to fetch it.\n\nIt isn\'t ready yet, so it\'s switched off in this release.';
+
+  @override
+  String get quickFetchComingSoonMeanwhile =>
+      'Everything else works as usual: paste a link on the Home screen, or share a link to Fetchy from any app.';
+
+  @override
   String get watchedDomainsEditTitle => 'Edit watched sites';
 
   @override

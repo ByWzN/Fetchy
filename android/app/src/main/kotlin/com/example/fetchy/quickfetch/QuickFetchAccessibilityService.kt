@@ -1,12 +1,15 @@
 package com.example.fetchy.quickfetch
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
+import android.content.ComponentName
 import android.content.Context
 import android.os.SystemClock
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityManager
 import com.example.fetchy.domains.BuiltInDetectedSites
 import com.example.fetchy.domains.WatchedDomainStore
 
@@ -230,7 +233,16 @@ class QuickFetchAccessibilityService : AccessibilityService() {
         /// Whether the user has switched this service on in system settings.
         /// Checked live because the user can revoke it at any time.
         fun isEnabledInSystemSettings(context: Context): Boolean {
-            val expected = componentId(context)
+            // Primary: ask the platform for the services it has actually
+            // enabled and compare ComponentNames. This is the supported public
+            // API for the question, and it compares structured identities
+            // rather than parsing a delimited settings string.
+            enabledViaAccessibilityManager(context)?.let { return it }
+
+            // Fallback only: the Secure setting is still readable when the
+            // AccessibilityManager is unavailable (it can be null very early
+            // in process startup on some devices).
+            val expected = componentName(context)
             val enabled = try {
                 Settings.Secure.getString(
                     context.contentResolver,
@@ -240,11 +252,43 @@ class QuickFetchAccessibilityService : AccessibilityService() {
                 null
             } ?: return false
 
-            return enabled.split(':').any { it.equals(expected, ignoreCase = true) }
+            return enabled.split(':').any {
+                ComponentName.unflattenFromString(it.trim()) == expected
+            }
         }
 
-        private fun componentId(context: Context): String =
-            "${context.packageName}/${QuickFetchAccessibilityService::class.java.name}"
+        /// Null when the platform could not answer at all, which is different
+        /// from a confident "not enabled" — the caller falls back rather than
+        /// reporting a state it cannot support.
+        private fun enabledViaAccessibilityManager(context: Context): Boolean? {
+            return try {
+                val manager = context.getSystemService(Context.ACCESSIBILITY_SERVICE)
+                    as? AccessibilityManager ?: return null
+                val expected = componentName(context)
+
+                manager
+                    .getEnabledAccessibilityServiceList(
+                        AccessibilityServiceInfo.FEEDBACK_ALL_MASK,
+                    )
+                    .any { info ->
+                        val id = info.id ?: return@any false
+                        ComponentName.unflattenFromString(id) == expected
+                    }
+            } catch (throwable: Throwable) {
+                Log.w(TAG, "Could not query enabled accessibility services", throwable)
+                null
+            }
+        }
+
+        /// Fetchy's own Quick Fetch service, as a structured identity rather
+        /// than a hand-built string.
+        private fun componentName(context: Context): ComponentName =
+            ComponentName(context.packageName, QuickFetchAccessibilityService::class.java.name)
+
+        /// The flattened "<package>/<class>" form, for the system settings
+        /// screens that take a component name as an intent extra.
+        fun componentId(context: Context): String =
+            componentName(context).flattenToString()
     }
 }
 

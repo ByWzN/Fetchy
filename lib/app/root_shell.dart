@@ -9,6 +9,7 @@ import 'theme/fetchy_tokens.dart';
 import '../features/history/presentation/pages/history_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/media/presentation/pages/media_preview_page.dart';
+import '../features/quick_fetch/quick_fetch_availability.dart';
 import '../features/quick_fetch/quick_fetch_service.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 
@@ -42,6 +43,12 @@ class _RootShellState extends State<RootShell> {
   @override
   void initState() {
     super.initState();
+
+    // Nothing listens for quick-action taps while the feature is held back
+    // from the release (see QuickFetchAvailability), so no quick action can
+    // route anywhere even if a detector were somehow still running.
+    if (!QuickFetchAvailability.isAvailable) return;
+
     _quickFetch.start();
     _quickFetchSubscription = _quickFetch.taps.listen(_onQuickFetchTap);
   }

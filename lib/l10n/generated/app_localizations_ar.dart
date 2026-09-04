@@ -613,6 +613,96 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickFetchTurnOn => 'تفعيل';
 
   @override
+  String get quickFetchSetupReadyTitle => 'الجلب السريع جاهز';
+
+  @override
+  String get quickFetchSetupReadyMessage =>
+      'سيلاحظ Fetchy عند نسخك رابطًا في أحد التطبيقات المراقبة ويوفّر طريقة سريعة لجلبه.';
+
+  @override
+  String get quickFetchSetupNeededTitle => 'الجلب السريع يحتاج إلى إعداد';
+
+  @override
+  String get quickFetchSetupNeededMessage =>
+      'يمكن للجلب السريع اكتشاف روابط الوسائط المنسوخة تلقائيًا. قد يطلب Android خطوة أمان إضافية للتطبيقات المثبّتة من ملفات APK.';
+
+  @override
+  String get quickFetchSetupNotYetEnabledTitle => 'الجلب السريع غير مفعّل بعد';
+
+  @override
+  String get quickFetchSetupNotYetEnabledMessage =>
+      'ما زال كاشف Fetchy غير مفعّل في إعدادات إمكانية الوصول في Android. يمكنك المحاولة مرة أخرى أو فتح الشاشات أدناه.';
+
+  @override
+  String get quickFetchEnableCta => 'تفعيل الجلب السريع';
+
+  @override
+  String get quickFetchTryAgain => 'إعادة المحاولة';
+
+  @override
+  String get quickFetchOpenAccessibilitySettings =>
+      'فتح إعدادات إمكانية الوصول';
+
+  @override
+  String get quickFetchOpenAppInfo => 'فتح معلومات تطبيق Fetchy';
+
+  @override
+  String get quickFetchEnableExplainTitle => 'قبل المتابعة';
+
+  @override
+  String get quickFetchEnableExplainBody =>
+      'سيفتح Android إعدادات إمكانية الوصول. ابحث عن Fetchy في القائمة وفعّله، ثم عد إلى هنا.\n\nيستطيع Fetchy فتح تلك الشاشة لك فقط — ولا يمكنه تفعيل الإعداد بنفسه.';
+
+  @override
+  String get quickFetchEnableExplainContinue => 'فتح الإعدادات';
+
+  @override
+  String get quickFetchRestrictedHelpTitle =>
+      'إذا ذكر Android أن الإعداد مقيّد';
+
+  @override
+  String get quickFetchRestrictedHelpBody =>
+      'في Android 13 والأحدث، قد تُحجب التطبيقات المثبّتة من ملفات APK بواسطة حماية الإعدادات المقيّدة في Android. إذا ظهرت لك رسالة \"إعداد مقيّد\"، افتح معلومات تطبيق Fetchy وابحث عن \"السماح بالإعدادات المقيّدة\"، ثم عد إلى هنا وفعّل الجلب السريع.';
+
+  @override
+  String get quickFetchRestrictedHelpNote =>
+      'في بعض إصدارات Android، قد ترى \"السماح بالإعدادات المقيّدة\" في قائمة معلومات التطبيق. تختلف الصياغة وموضع القائمة بين الأجهزة والشركات المصنّعة.';
+
+  @override
+  String get quickFetchHelpShow => 'مساعدة الإعداد';
+
+  @override
+  String get quickFetchOptionalNote =>
+      'الجلب السريع اختياري. يمكنك دائمًا استخدام مشاركة ← Fetchy دون تفعيله.';
+
+  @override
+  String get quickFetchShareFallbackTitle => 'المشاركة إلى Fetchy';
+
+  @override
+  String get quickFetchShareFallbackSubtitle => 'يعمل دون أذونات الجلب السريع';
+
+  @override
+  String get quickFetchShareFallbackMessage =>
+      'في أي تطبيق، اضغط مشاركة واختر Fetchy. يُفتح الرابط مباشرة في مسار المعاينة والتنزيل المعتاد في Fetchy — دون أي إذن إضافي.';
+
+  @override
+  String get quickFetchAutoDetectLabel => 'اكتشاف الروابط المنسوخة تلقائيًا';
+
+  @override
+  String get quickFetchComingSoonTag => 'قريبًا';
+
+  @override
+  String get quickFetchComingSoonSubtitle => 'قريبًا';
+
+  @override
+  String get quickFetchComingSoonBody =>
+      'اكتشاف الروابط المنسوخة تلقائيًا قيد التطوير حاليًا. سيتيح لـ Fetchy ملاحظة نسخك رابط فيديو في أحد التطبيقات المدعومة وتقديم طريقة سريعة لجلبه.\n\nلم يصبح جاهزًا بعد، لذا فهو معطّل في هذا الإصدار.';
+
+  @override
+  String get quickFetchComingSoonMeanwhile =>
+      'كل شيء آخر يعمل كالمعتاد: الصق رابطًا في الشاشة الرئيسية، أو شارك رابطًا إلى Fetchy من أي تطبيق.';
+
+  @override
   String get watchedDomainsEditTitle => 'تعديل المواقع المراقبة';
 
   @override

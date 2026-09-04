@@ -23,6 +23,57 @@ enum QuickFetchActionStyle {
   }
 }
 
+/// How this copy of Fetchy was installed, as reported by Android's public
+/// `PackageManager.getInstallSourceInfo`.
+///
+/// Used for **wording only** — to decide whether the setup screen mentions
+/// Android's extra security step for apps installed from an APK file. It
+/// never affects what Fetchy requests or is allowed to do, and an installer
+/// package is never treated as trustworthy merely because of its name.
+enum QuickFetchInstallSource {
+  /// Installed by an app store that performs its own installs.
+  store,
+
+  /// Installed from an APK file — the case where Android 13+ may apply
+  /// Restricted Settings to the accessibility toggle.
+  sideload,
+
+  /// A recognized installer that is neither of the above.
+  other,
+
+  /// Android could not tell us, or the API is unavailable on this version.
+  /// The UI uses generic wording here rather than guessing.
+  unknown;
+
+  static QuickFetchInstallSource fromWireName(String? raw) => switch (raw) {
+    'store' => QuickFetchInstallSource.store,
+    'sideload' => QuickFetchInstallSource.sideload,
+    'other' => QuickFetchInstallSource.other,
+    _ => QuickFetchInstallSource.unknown,
+  };
+
+  /// Whether the setup screen should mention Android's Restricted Settings
+  /// step. Shown for a known sideload, and also when the source is unknown —
+  /// where generic wording is safer than silence.
+  bool get mayNeedRestrictedSettingsStep =>
+      this == QuickFetchInstallSource.sideload ||
+      this == QuickFetchInstallSource.unknown;
+}
+
+/// What the app can honestly say about background detection right now.
+///
+/// Deliberately only two states. Android tells us whether our accessibility
+/// service is enabled; it does **not** tell us *why* it isn't — "the user
+/// hasn't turned it on yet" and "Restricted Settings blocked the toggle"
+/// look identical from here, so no third state pretends otherwise.
+enum QuickFetchSetupState {
+  /// The service is enabled and the platform has bound it.
+  ready,
+
+  /// The service is not currently active. The reason is not knowable.
+  notEnabled,
+}
+
 /// An honest snapshot of what Quick Fetch can actually do on this device,
 /// reported by the platform rather than assumed by the UI.
 class QuickFetchCapabilities {
@@ -36,6 +87,7 @@ class QuickFetchCapabilities {
     required this.needsNotificationPermission,
     required this.canDrawOverlays,
     required this.hasPendingCandidate,
+    this.installSource = QuickFetchInstallSource.unknown,
     this.available = true,
   });
 
@@ -74,8 +126,17 @@ class QuickFetchCapabilities {
   /// True while a detected copy is waiting for the user to act on it.
   final bool hasPendingCandidate;
 
+  /// How Fetchy was installed. Guidance wording only.
+  final QuickFetchInstallSource installSource;
+
   /// False when the native Quick Fetch layer is not present at all.
   final bool available;
+
+  /// The two-state answer the platform can actually support — see
+  /// [QuickFetchSetupState].
+  QuickFetchSetupState get setupState => backgroundDetectionReady
+      ? QuickFetchSetupState.ready
+      : QuickFetchSetupState.notEnabled;
 
   /// Whether the currently selected style can actually surface a link.
   bool get selectedStyleReady => switch (actionStyle) {
@@ -106,6 +167,9 @@ class QuickFetchCapabilities {
           map['needsNotificationPermission'] as bool? ?? false,
       canDrawOverlays: map['canDrawOverlays'] as bool? ?? false,
       hasPendingCandidate: map['hasPendingCandidate'] as bool? ?? false,
+      installSource: QuickFetchInstallSource.fromWireName(
+        map['installSource'] as String?,
+      ),
     );
   }
 }

@@ -30,6 +30,19 @@ android {
     packaging {
         jniLibs {
             useLegacyPackaging = true
+
+            // youtubedl-android's ffmpeg/python artifacts ship their
+            // bundled binaries as libffmpeg.zip.so / libpython.zip.so — a
+            // zip archive under a .so name, not real native code — so AGP's
+            // release-build debug-symbol stripping (llvm-strip) can fail
+            // against them with "not recognized as a valid object file".
+            // This tells AGP to package these two files exactly as they
+            // are rather than attempting to strip them; every other
+            // library is unaffected and still gets stripped normally.
+            keepDebugSymbols += setOf(
+                "**/libffmpeg.zip.so",
+                "**/libpython.zip.so"
+            )
         }
     }
 
