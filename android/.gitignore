@@ -12,3 +12,9 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+# Trailing-suffix variants too: a "fetchy-release.jks.bak" does not match
+# "*.jks", and a stray backup of a signing key is exactly as dangerous as
+# the key itself.
+key.properties.*
+**/*.keystore.*
+**/*.jks.*
