@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ (API 31+) SplashScreen theming.
+
+         windowSplashScreenAnimatedIcon uses a small, centered icon-only
+         drawable (splash_icon): the OS applies its own adaptive-icon-style
+         safe-zone masking to this slot (centered on the drawable's own
+         canvas), which clips anything that isn't compact and centered.
+         The "Fetchy" wordmark instead goes in windowSplashScreenBrandingImage,
+         the OS's own bottom-of-screen branding slot (the same pattern apps
+         like Instagram use for their "from Meta" text under the icon); it
+         is laid out independently of the icon, so it is never subject to
+         that masking. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/launch_screen_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_branding</item>
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/fetchy_icon_background</item>
+    </style>
+</resources>

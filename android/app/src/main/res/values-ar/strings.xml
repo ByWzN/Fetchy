@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown in Android's Accessibility settings list. -->
+    <string name="quick_fetch_accessibility_label">الجلب السريع في Fetchy</string>
+
+    <string name="quick_fetch_accessibility_summary">يكتشف نسخ رابط في تطبيق مدعوم</string>
+
+    <!-- Android shows this on the confirmation dialog before the user turns
+         the service on, so it must describe the real behaviour accurately. -->
+    <string name="quick_fetch_accessibility_description">يراقب الجلب السريع عمليات النسخ في YouTube وTikTok وInstagram وX ليعرض عليك تنزيلًا بضغطة واحدة.\n\nهو يكتشف فقط أن نسخًا حدث ومن أي تطبيق. لا يمكنه ولا يقرأ حافظتك في الخلفية، ولا يقرأ محتوى شاشتك. لا يقرأ Fetchy الحافظة إلا بعد أن تضغط على إجراء الجلب السريع ويكون Fetchy مفتوحًا أمامك.\n\nلا يُرفع شيء إلى أي مكان. يمكنك إيقاف الجلب السريع من إعدادات Fetchy في أي وقت.</string>
+
+    <!-- Notification channel for a pending Quick Fetch candidate. -->
+    <string name="quick_fetch_channel_name">الروابط المنسوخة</string>
+    <string name="quick_fetch_channel_description">يتيح جلبًا سريعًا عند نسخ رابط في تطبيق مدعوم.</string>
+
+    <!-- %1$s is the source platform name (e.g. "YouTube"), never translated. -->
+    <string name="quick_fetch_notification_title">تم اكتشاف رابط %1$s</string>
+    <string name="quick_fetch_notification_text">جاهز للجلب</string>
+    <string name="quick_fetch_action_fetch">جلب</string>
+    <string name="quick_fetch_action_dismiss">تجاهل</string>
+
+    <!-- Read aloud by screen readers for the Quick Fetch floating-dot overlay. -->
+    <string name="quick_fetch_overlay_content_description">Fetchy: تم اكتشاف رابط للجلب</string>
+
+    <!-- Easy Connect sign-in WebView (SessionLoginActivity). %1$s is the
+         platform name (e.g. "TikTok"), never translated. -->
+    <string name="session_login_sign_in_to">تسجيل الدخول إلى %1$s</string>
+    <string name="session_login_menu_open_in_browser">فتح في المتصفح</string>
+    <string name="session_login_menu_clear_session">مسح الجلسة</string>
+    <string name="session_login_tiktok_google_notice">قد لا يعمل تسجيل الدخول عبر Google داخل نافذة تسجيل الدخول المضمّنة. جرّب طريقة أخرى لتسجيل الدخول، أو استخدم خيارات متقدمة ← استيراد الكوكيز.</string>
+    <string name="session_login_no_browser">لا يوجد متصفح متاح على هذا الجهاز.</string>
+    <string name="session_login_session_cleared">تم مسح الجلسة. سجّل الدخول مرة أخرى أدناه.</string>
+
+    <!-- System share-sheet chooser titles (FileActionHandler). -->
+    <string name="file_action_open_with">فتح باستخدام</string>
+    <string name="file_action_share_media">مشاركة الوسائط</string>
+</resources>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 96" width="160" height="96">
+<defs><linearGradient id="g" x1="18" y1="18" x2="142" y2="78" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18D4F7"/><stop offset="1" stop-color="#1557F2"/></linearGradient></defs>
+<g transform="translate(80 48) rotate(-18) translate(-80 -48)" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round">
+<path d="M48 49C37 49 29 41 29 30C29 19 37 11 48 11H69C80 11 88 19 88 30C88 41 80 49 69 49H48Z"/>
+<path d="M91 47C102 47 110 55 110 66C110 77 102 85 91 85H70C59 85 51 77 51 66C51 55 59 47 70 47H91Z"/>
+</g></svg>

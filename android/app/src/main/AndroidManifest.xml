@@ -1,0 +1,132 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Network access. Previously this was only declared in the debug
+         manifest (where the Flutter tool adds it for hot reload), which
+         meant release builds shipped without it. Fetchy cannot extract,
+         download, or check for its own updates without it. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- In-app update only. This permission does not install anything by
+         itself: it lets Fetchy *ask* Android to open the package installer,
+         which the user must then confirm. Android still enforces its own
+         signature check on the update, and the user can revoke this from
+         Settings -> Install unknown apps at any time. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- Legacy shared-storage write path (API 24-28 only).
+         API 29+ publishes through MediaStore and needs no permission. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- ==================== Quick Fetch (optional feature) ====================
+         Off by default. Nothing below is exercised until the user turns Quick
+         Fetch on in Settings.
+
+         Note there is deliberately NO foreground-service permission here: a
+         foreground service grants no clipboard access on Android 10+, so the
+         feature does not use one. Background detection is the accessibility
+         service declared below, which never reads the clipboard. -->
+
+    <!-- Required from Android 13 to show the "link copied" quick action.
+         Requested at runtime, only when Notification mode is chosen. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Only used when the user selects the Floating dot action style and
+         grants "display over other apps" from Settings. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:label="Fetchy"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:extractNativeLibs="true">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <!-- Connected Accounts/Sessions: Easy Connect's WebView sign-in
+             flow, used only for platforms proven (by real-device testing)
+             to work this way (YouTube, Instagram, TikTok) — see
+             SessionLoginActivity.kt. Only ever launched by Fetchy itself. -->
+        <activity
+            android:name=".sessions.SessionLoginActivity"
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/NormalTheme" />
+
+        <!-- Quick Fetch background copy-event detector.
+             BIND_ACCESSIBILITY_SERVICE is held by the system, which is what
+             makes this exported=true safe and required: only the platform may
+             bind it. It never reads the clipboard and cannot read the screen
+             (canRetrieveWindowContent=false in its config). -->
+        <service
+            android:name=".quickfetch.QuickFetchAccessibilityService"
+            android:exported="true"
+            android:label="@string/quick_fetch_accessibility_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/quick_fetch_accessibility_service" />
+        </service>
+
+        <!-- Handles the notification's Dismiss action. Not exported: only
+             Fetchy's own PendingIntent triggers it. -->
+        <receiver
+            android:name=".quickfetch.QuickFetchDismissReceiver"
+            android:exported="false" />
+
+        <!-- Secure file sharing and viewing provider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
+        </intent>
+        <!-- Lets CustomTabsClient.getPackageName() see installed browsers
+             on Android 11+ (package-visibility) so Easy Connect can target
+             a real browser explicitly instead of leaving resolution
+             ambiguous. This does not affect App Links or any other app. -->
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+    </queries>
+</manifest>

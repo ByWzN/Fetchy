@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown in Android's Accessibility settings list. -->
+    <string name="quick_fetch_accessibility_label">Fetchy Quick Fetch</string>
+
+    <string name="quick_fetch_accessibility_summary">Detects when you copy a link in a supported app</string>
+
+    <!-- Android shows this on the confirmation dialog before the user turns
+         the service on, so it must describe the real behaviour accurately. -->
+    <string name="quick_fetch_accessibility_description">Quick Fetch watches for copy actions in YouTube, TikTok, Instagram and X so it can offer a one-tap download.\n\nIt only detects that a copy happened and which app you were in. It cannot and does not read your clipboard in the background, and it does not read the contents of your screen. Fetchy reads the clipboard only after you tap the Quick Fetch action and Fetchy is open in front of you.\n\nNothing is uploaded anywhere. Turn Quick Fetch off in Fetchy\'s settings at any time.</string>
+
+    <!-- Notification channel for a pending Quick Fetch candidate. -->
+    <string name="quick_fetch_channel_name">Copied links</string>
+    <string name="quick_fetch_channel_description">Offers a quick download when you copy a link in a supported app.</string>
+
+    <!-- %1$s is the source platform name (e.g. "YouTube"), never translated. -->
+    <string name="quick_fetch_notification_title">%1$s link detected</string>
+    <string name="quick_fetch_notification_text">Ready to fetch</string>
+    <string name="quick_fetch_action_fetch">Fetch</string>
+    <string name="quick_fetch_action_dismiss">Dismiss</string>
+
+    <!-- Read aloud by screen readers for the Quick Fetch floating-dot overlay. -->
+    <string name="quick_fetch_overlay_content_description">Fetchy: download detected link</string>
+
+    <!-- Easy Connect sign-in WebView (SessionLoginActivity). %1$s is the
+         platform name (e.g. "TikTok"), never translated. -->
+    <string name="session_login_sign_in_to">Sign in to %1$s</string>
+    <string name="session_login_menu_open_in_browser">Open in browser</string>
+    <string name="session_login_menu_clear_session">Clear session</string>
+    <string name="session_login_tiktok_google_notice">Google sign-in may not work in the in-app login window. Try another sign-in method, or use Advanced → Import cookies.</string>
+    <string name="session_login_no_browser">No browser is available on this device.</string>
+    <string name="session_login_session_cleared">Session cleared. Sign in again below.</string>
+
+    <!-- System share-sheet chooser titles (FileActionHandler). -->
+    <string name="file_action_open_with">Open with</string>
+    <string name="file_action_share_media">Share media</string>
+</resources>

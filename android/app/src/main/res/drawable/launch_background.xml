@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fetchy branded native launch background: icon centered, "Fetchy"
+     wordmark pinned near the bottom, matching the API 31+
+     windowSplashScreenAnimatedIcon + windowSplashScreenBrandingImage pair
+     (see values-v31/styles.xml), for pre-31 devices where this drawable is
+     the whole launch screen rather than just its post-icon fallback. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/launch_screen_background" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash_icon" />
+    </item>
+    <item android:bottom="64dp">
+        <bitmap
+            android:gravity="bottom|center_horizontal"
+            android:src="@drawable/splash_branding" />
+    </item>
+</layer-list>

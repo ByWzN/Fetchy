@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs><linearGradient id="g" x1="145" y1="92" x2="350" y2="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18D4F7"/><stop offset=".5" stop-color="#19B7F2"/><stop offset="1" stop-color="#1557F2"/></linearGradient></defs>
+<path id="hook-start" fill="url(#g)" d="M165 418V190C165 138 198 101 240 101C283 101 324 128 344 166C361 199 357 233 338 259C325 276 305 288 283 291L269 293C258 294 250 287 250 276C250 264 259 256 271 255C290 253 303 246 309 233C318 215 312 192 301 179C286 161 264 151 242 151C214 151 198 169 198 192V418H222L188 452C182 458 172 458 166 452L132 418Z"/>
+</svg>

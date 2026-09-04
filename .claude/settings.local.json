@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(flutter build *)",
+      "Bash(cd \"C:/Users/Osbymr/Desktop/Question_Project/questions_bank\" 2>/dev/null && grep -rln \"BackdropFilter\\\\|ImageFilter.blur\" lib/ 2>/dev/null | head -20 || echo \"DIR_NOT_FOUND_OR_EMPTY\")",
+      "Read(//c/Users/Osbymr/Desktop/Question_Project/questions_bank/**)",
+      "Read(//c/Users/Osbymr/Desktop/car_checkV2/**)",
+      "Bash(xargs grep -l \"BackdropFilter\\\\|glass\\\\|Glass\" -i)"
+    ]
+  }
+}

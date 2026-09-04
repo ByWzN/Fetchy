@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fetchy_icon_background">#050B18</color>
+
+    <!-- Native launch-screen background only; follows the app's own theme,
+         unlike fetchy_icon_background (the launcher icon's background,
+         which never changes with the system theme).
+
+         This is the top colour of the light page wash painted by
+         FetchyPageBackground, so the moment Flutter takes over there is no
+         visible step between the launch screen and the first frame. -->
+    <color name="launch_screen_background">#F7FAFE</color>
+</resources>

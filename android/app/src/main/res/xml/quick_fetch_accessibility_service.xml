@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Deliberately narrow configuration.
+
+  - accessibilityEventTypes: only the four event kinds needed to notice a copy
+    interaction and to know which supported app is in front. No text-changed,
+    no scroll, no touch-exploration events.
+  - packageNames: only the supported source apps plus the share-sheet hosts,
+    so the platform never delivers events from any other app. Keep in sync
+    with QuickFetchSourcePackages.kt.
+  - canRetrieveWindowContent="false": the service is structurally unable to
+    read the screen. Event text still arrives with the event itself, which is
+    all the copy detection needs.
+  - notificationTimeout: coalesces bursts of events so repeated callbacks
+    during a single interaction do not cost extra work.
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeViewClicked|typeAnnouncement|typeNotificationStateChanged|typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:canRetrieveWindowContent="false"
+    android:description="@string/quick_fetch_accessibility_description"
+    android:notificationTimeout="300"
+    android:packageNames="com.google.android.youtube,com.google.android.apps.youtube.music,com.google.android.youtube.tv,com.zhiliaoapp.musically,com.ss.android.ugc.trill,com.ss.android.ugc.aweme,com.instagram.android,com.instagram.lite,com.twitter.android,com.twitter.android.lite,android,com.android.intentresolver,com.android.systemui"
+    android:summary="@string/quick_fetch_accessibility_summary" />
